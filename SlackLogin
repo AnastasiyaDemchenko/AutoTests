@@ -1,18 +1,23 @@
 /// <reference types="cypress"/>
 
 describe('slackTest', () => {
-
     it('login',() =>{
-        const login = "testythetester88@gmail.com";
-        const password = "Z1x2C3v4_";
+        const UserCredentials = {
+        login:'testythetester88@gmail.com',
+        password: 'Z1x2C3v4_',
+        }; 
 
         cy.visit('/')
-        cy.get('#email') .type(login)
-        cy.get('#password') .type(password)
-        cy.get('#signin_btn').click()
-        cy.wait(5000)
-        cy.get ('[data-qa="continue_in_browser"]').click()
-        cy.get('[class="p-ia__sidebar_header__team_name_text"]').should('contain', 'TestyTheTesterLTD') 
-    
+        let email = '[data-qa="login_email"]';
+        cy.get(email).type(UserCredentials.login)
+        let password = '[data-qa="login_password"]';
+        cy.get(password).type(UserCredentials.password)
+        let SignInBtn = '#signin_btn'
+        cy.get(SignInBtn).should('be.visible').click()
+        let ContinueInBrowserBtn = '[data-qa="continue_in_browser"]';
+        cy.get(ContinueInBrowserBtn).should('be.visible').click()
+        let WorkspaceName = '[class="p-ia__sidebar_header__team_name_text"]';
+        cy.get(WorkspaceName).should('contain', 'TestyTheTesterLTD') 
+        
     })
 })
