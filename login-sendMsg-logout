@@ -1,0 +1,41 @@
+it('login and send msg',() =>{
+        const userCredentials = {
+        login:'testythetester88@gmail.com',
+        password: 'Z1x2C3v4_',
+        }; 
+
+        //login
+        cy.visit('/')
+        let emailSelector = '[data-qa="login_email"]';
+        cy.get(emailSelector).type(userCredentials.login)
+        let passwordSelector = '[data-qa="login_password"]';
+        cy.get(passwordSelector).type(userCredentials.password)
+        let signInBtn = '#signin_btn'
+        cy.get(signInBtn).should('be.visible').click()
+        let continueInBrowserBtn = '[data-qa="continue_in_browser"]';
+        cy.get(continueInBrowserBtn).should('be.visible').click()
+        let workspaceName = '[class="p-ia__sidebar_header__team_name_text"]';
+        cy.get(workspaceName).should('contain', 'TestyTheTesterLTD')
+
+        //send message
+        let sideBar = '.p-channel_sidebar__list';
+        cy.get(sideBar).contains('Nastya').click()
+        //cy.get('[data-qa="channel_sidebar_name_nastya"]').click()
+        //let User ='nastya';
+        //cy.get(`[data-qa="channel_sidebar_name_${User}"]`).click()
+        let inputField = '[data-qa="message_input"]';
+        let testMsg = 'testmsg'+Date.now() 
+        cy.get(inputField).type(testMsg)
+        //cy.get('inputField').type('123{enter}')
+        let sendBtn = '[data-qa="texty_send_button"]';
+        cy.get(sendBtn).should('be.visible').click() 
+        //let chat = '[data-qa="virtual-list-item"]';
+        //cy.get(chat).should ('contain',testMsg)
+        cy.contains (testMsg)
+
+        //logout
+        let userBtn = '[data-qa="user-button"]';
+        cy.get(userBtn).click ().then(()=>{
+            cy.contains('Sign out of'). click ()
+        })
+        //cy.get('.c-button-unstyled #menu-106-9').click()
